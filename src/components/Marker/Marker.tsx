@@ -1,4 +1,7 @@
-export default function Marker() {
+type MarkerProps = {
+    data: SerializableMarker
+}
+export default function MarkerWrapper({data}: MarkerProps) {
 
     return (
         <div>
