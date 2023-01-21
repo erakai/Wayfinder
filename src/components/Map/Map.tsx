@@ -6,6 +6,7 @@ import EditMapControl from './EditMapControl';
 import { IconButton } from '@mui/material';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddIcon from '@mui/icons-material/Add';
 
 const styles: Record<string, google.maps.MapTypeStyle[]> = {
@@ -35,12 +36,18 @@ type MapProps = {
 
 function Map({editable, lat, lng}: MapProps) {
   const [canAdd, setCanAdd] = useState(false)
-  const [markers, setMarkers] = useState([])
+  const [markers, setMarkers] = useState<Array<SerializableMarker>>([])
   const [visibleIcons, setVisibleIcons] = useState(false)
-  const [map, setMap] = useState(null)
+  const [map, setMap] = useState<any>(null)
   const [center, setCenter] = useState({lat: lat, lng: lng})
 
   const onVisibleButtonClick = () => {
+    if (!visibleIcons) {
+      map!.setOptions({styles: styles["default"]})
+    } else {
+      map!.setOptions({styles: styles["hide"]})
+    }
+
     setVisibleIcons(!visibleIcons)
   }
 
@@ -52,13 +59,27 @@ function Map({editable, lat, lng}: MapProps) {
     console.log('Published!')
   }
 
+  const onMapClick = (e: google.maps.MapMouseEvent) => {
+    if (canAdd) {
+      let newMarker: SerializableMarker = {
+        name: "New Marker " + markers.length,
+        center: e.latLng?.toJSON(),
+        info: "",
+        link: ""
+      }
+      setMarkers(markers => [...markers, newMarker])
+      setCanAdd(false)
+    }
+  }
+
+
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: import.meta.env.VITE_API_KEY
   })
 
   const onLoad = React.useCallback(function callback(map: any ) {
-    map.setOptions({styles: styles["hide"]})
+    map.setOptions({styles: (visibleIcons ? styles["default"] : styles["hide"])})
     setMap(map)
   }, [])
 
@@ -70,20 +91,21 @@ function Map({editable, lat, lng}: MapProps) {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={1}
+        zoom={15}
         onLoad={onLoad}
         onUnmount={onUnmount}
+        onClick={onMapClick}
         options={{streetViewControl: false}}
       >
         {markers.map(m => {
-          return <MarkerWrapper data={m}/>
+          return <MarkerWrapper key={m.name} data={m}/>
         })}
-        <EditMapControl position="LEFT_BOTTOM">
+        <EditMapControl  position="BOTTOM_CENTER">
           <IconButton color="secondary" size="large" onClick={onVisibleButtonClick}>
-            {visibleIcons ? <VisibilityOffIcon /> : <VisibilityIcon />}
+            {visibleIcons ? <VisibilityIcon /> : <VisibilityOffIcon />}
           </IconButton>
           <IconButton color="primary" size="large" onClick={onAddButtonClick}>
-            <AddIcon/>
+            {canAdd ? <MoreHorizIcon /> : <AddIcon />}
           </IconButton>
         </EditMapControl>
       </GoogleMap>

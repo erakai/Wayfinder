@@ -1,14 +1,12 @@
 import { Container } from "@mui/system"
+import { Marker } from "@react-google-maps/api"
+import { useEffect, useState } from "react"
 
 type MarkerProps = {
     data: SerializableMarker
-}
+ }
+
 export default function MarkerWrapper({data}: MarkerProps) {
 
-    return (
-        <Container>
-            <h1>data.name</h1>
-            <p>data.info</p>
-        </Container>
-    )
+    return <Marker position={data.center}/>
 }

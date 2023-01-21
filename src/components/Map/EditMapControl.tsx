@@ -18,6 +18,6 @@ export default function EditMapControl(props: PropsWithChildren<MapControlProps>
     }, [map, ref])
 
     return (
-        <div ref={ref}>{props.children}</div>
+        <div style={{backgroundColor: "#f2f5f7", boxShadow: '0px 1px 6px #000000', }} ref={ref}>{props.children}</div>
     )
 }
