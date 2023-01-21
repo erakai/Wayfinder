@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import { ColorRing } from 'react-loader-spinner';
-import { Container } from '@mui/material'
-import Map from '../../components/Map/Map';
+import { StyledEngineProvider } from '@mui/material/styles';
+import MainDrawer from '../../components/Structure/MainDrawer';
 
 
 export default function Editor() {
   return (
-    <Map />
+    <StyledEngineProvider injectFirst>
+      <MainDrawer />
+    </StyledEngineProvider>
   )
 }
