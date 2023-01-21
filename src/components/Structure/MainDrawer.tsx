@@ -87,13 +87,12 @@ export default function MainDrawer() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" sx={{"backgroundColor": "black", "opacity": .5}}open={open}>
+      <AppBar position="fixed" sx={{"backgroundColor": "#f2f5f7"}}open={open}>
         <Toolbar>
-          <Typography variant="h6" align="center" noWrap sx={{ flexGrow: 1, fontWeight: 'bold' }} component="div">
+          <Typography variant="h6" align="center" noWrap sx={{ color: "#212121", flexGrow: 1, fontWeight: 'bold' }} component="div">
             Wayfinder
           </Typography>
           <IconButton
-            color="inherit"
             aria-label="open drawer"
             edge="end"
             onClick={handleDrawerOpen}
@@ -105,7 +104,7 @@ export default function MainDrawer() {
       </AppBar>
       <Main open={open}>
         <DrawerHeader />
-          <Map />
+          <Map editable={true} lat={40.418840} lng={-86.898973}/>
       </Main>
       <Drawer
         sx={{
