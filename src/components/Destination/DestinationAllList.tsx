@@ -27,10 +27,12 @@ export default function DestinationAllList() {
     <Box sx={{ flexGrow: 1}}>
       <Grid container spacing={2}>
           <Grid item xs={true} md={true}>
-            <Typography sx={{ mt: 4, mb: 2, fontWeight: 'bold' }} variant="h6" component="div">
-              All Destinations
-            </Typography>
-            <Paper style={{maxHeight: '83vh', overflow: 'auto'}}>
+            <Paper sx={{ mt: 4, mb: 2, ml:1, fontWeight: 'bold', width:"auto"}} variant="outlined">
+              <Typography sx={{ml:2 , fontWeight: 'bold'}} variant="h6" component="div">
+                All Destinations
+              </Typography>
+            </Paper>
+            <Paper style={{maxHeight: '75vh', overflow: 'auto'}}>
               <List>
                 {generate(
                   <DestinationCard />
