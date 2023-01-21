@@ -159,7 +159,7 @@ export default function TopBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' }, color: letteringColor }}
+            sx={{ display: { xs: 'none', sm: 'block' }, color: letteringColor, fontWeight: 'bold' }}
             direction="row" 
             alignItems="center"
           >
