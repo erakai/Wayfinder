@@ -27,7 +27,7 @@ export default function DestinationAllList() {
     <Box sx={{ flexGrow: 1}}>
       <Grid container spacing={2}>
           <Grid item xs={true} md={true}>
-            <Paper sx={{ mt: 4, mb: 2, ml:1, fontWeight: 'bold', width:"auto"}} variant="outlined">
+            <Paper sx={{ mt: 4, mb: 2, ml:1, fontWeight: 'bold', width:"auto", boxShadow: 2}} variant="outlined">
               <Typography sx={{ml:2 , fontWeight: 'bold'}} variant="h6" component="div">
                 All Destinations
               </Typography>

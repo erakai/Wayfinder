@@ -29,22 +29,22 @@ export default function DestinationMyList() {
       <Grid container spacing={2}>
         <Grid item xs={true} md={true}>
           <Grid container>
-            <Grid item>
-              <Paper sx={{ mt: 4, mb: 2, ml:1, fontWeight: 'bold', width:"100%"}} variant="outlined">
+            <Grid item xs={true}>
+              <Paper sx={{ mt: 4, mb: 2, ml:1, fontWeight: 'bold', width: "100%", boxShadow: 2}} variant="outlined">
               <Typography sx={{ml:2 , fontWeight: 'bold'}} variant="h6" component="div">
                 My Destinations
               </Typography>
             </Paper>
             </Grid>                          
-            <Grid item xs>                                 
-              <Grid container direction="row-reverse">      
+            <Grid item xs={3}>                                 
+              <Grid container direction="row-reverse" sx={{width: 'auto'}}>      
                 <Grid item>
-                  <Button sx={{mt: 3, mb: 3}} variant="contained" color="success">New Map</Button>
+                  <Button sx={{mt: 4, mb: 3}} variant="contained" color="success">New Map</Button>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
-          <Paper style={{maxHeight: '75vh', overflow: 'auto'}}>
+          <Paper style={{maxHeight: '70vh', overflow: 'auto'}}>
             <List>
               {generate(
                 <DestinationCard />
