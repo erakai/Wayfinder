@@ -21,21 +21,28 @@ import {firebase_auth, popupLogin, logout} from "../../util/Firebase"
 import { attemptMapFetch, getAllMaps, getAllMapsByUser } from '../../util/MapFirebase';
 
 import { DestinationFirebase } from "../../util/DestinationFirebase"
-import { Destination } from "../Destination/API/Destination"
+import { Destination, DestinationSeed } from "../Destination/API/Destination"
 
 const letteringColor = '#212121'
 
 function testUpload() {
   /*
   const access : string[] = [firebase_auth.currentUser.uid];
-  const c : Destination = new Destination("", 1, access, "")
-
+  const userDownVotes : string[] = [firebase_auth.currentUser.uid];
+  const destSeed : DestinationSeed = {
+    id : "",
+    key : 0,
+    access: access,
+    link: "dasdsad",
+    userUpVotes: [],
+    userDownVotes : userDownVotes
+  }
+  const c : Destination = new Destination(destSeed)
   const a = DestinationFirebase.getInstance().writeDestination(c)
   console.log(a)
   */
-
-  const a = DestinationFirebase.getInstance().readAllDestinations();
-  console.log(a)
+  const b = DestinationFirebase.getInstance().readAllDestinations();
+  console.log(b)
 }
 
 const Search = styled('div')(({ theme }) => ({

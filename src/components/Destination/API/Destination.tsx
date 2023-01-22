@@ -2,8 +2,8 @@
  * Firebase API:
  * id ->
  * 	- access (owners) : string ids
- *  - votes : number
- *  - userVotes : string ids
+ *  - userUpVotes : string ids
+ *  - userDownVotes : string ids
  *  - mapID: string id
  */ 
 
@@ -13,30 +13,40 @@ enum voteStatus {
 	NONE,
 }
 
+type DestinationSeed = {
+	id : string,
+	key : string,
+	access : string[],
+	link : string,
+	userUpVotes : string[]
+	userDownVotes : string[]
+}
+
 class Destination {
-	readonly id: string; // firebase id, if -1 failed to load
+	readonly id: ""; // firebase id, if -1 failed to load
 	readonly key: number; // id given by mapping
 	readonly access : string[];
-	userVotes: string[];
+	userUpVotes: string[];
+	userDownVotes: string[];
 	title : string; // title shown
 	tags: string[]; // tags
 	readonly link: string; // link to map
-	votes: number; // # votes given
-	voteStatus: voteStatus; // enum of whether the user voted on it
 
-	constructor(i : string, k : string, a: string[], l : string, v : number) {
-		this.id = i;
-		this.key = k;
-		this.access = a;
-		this.link = l;
-		this.votes = v;
+	constructor(destSeed : DestinationSeed) {
+		this.id = destSeed.id;
+		this.key = destSeed.key;
+		this.access = destSeed.access;
+		this.link = destSeed.link;
+		this.userUpVotes = destSeed.userUpVotes;
+		this.userDownVotes = destSeed.userDownVotes;
+
+		this.votes = destSeed.userUpVotes ? destSeed.userUpVotes.length : 0;
 
 		// firebase query (need kai's stuff)
-		this.userVotes = []
+		
 		this.title = "Poop"
 		this.tags = []
-		this.voteStatus = voteStatus.UP;
 	}
 }
 
-export { Destination }
+export { Destination, DestinationSeed }

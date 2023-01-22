@@ -2,12 +2,12 @@
  * Firebase API:
  * id ->
  *  - access (owners) : string ids
- *  - votes : number
- *  - userVotes : string ids
+ *  - userUpVotes : string ids
+ *  - userDownVotes : string ids
  *  - mapID: string id
  */ 
 import { getDatabase, ref, child, set, push, get } from "firebase/database";
-import { Destination } from "../components/Destination/API/Destination";
+import { Destination, DestinationSeed } from "../components/Destination/API/Destination";
 
 const db = getDatabase();
 
@@ -50,7 +50,7 @@ class DestinationFirebase {
               message: "Successful Read!",
               destinations: dest
             }
-            resolve(from);
+            resolve(response);
           } else {
             const response : DestinationFirebaseResponse = {
               status: DestinationFirebaseStatus.WAYFINDER_ERROR,
@@ -76,8 +76,8 @@ class DestinationFirebase {
     return new Promise(function (resolve, reject) {
       writeMethod(ref(db, 'destinations/' + dest.id), {
         access: dest.access,
-        votes: dest.votes,
-        userVotes: dest.userVotes,
+        userUpVotes: dest.userUpVotes,
+        userDownVotes: dest.userDownVotes,
         mapID: dest.link
       }).then(() => {
         const response : DestinationFirebaseResponse = {
@@ -102,7 +102,17 @@ class DestinationFirebase {
     const keys = Object.keys(from);
     var i = 0
     keys.forEach(key => {
-      dest.push(new Destination(key, i, from[key].access, from[key].mapID, from[key].votes))
+      const destSeed : DestinationSeed = {
+        id : key,
+        key: i,
+        access: from[key].access,
+        link: from[key].mapID,
+        votes: from[key].votes,
+        userUpVotes: from[key].userUpVotes,
+        userDownVotes: from[key].userDownVotes
+      }
+
+      dest.push(new Destination(destSeed))
       i++;
     })
     return dest;

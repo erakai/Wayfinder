@@ -8,7 +8,9 @@ import Typography from '@mui/material/Typography'
 
 import DestinationCard from "./DestinationCard";
 
-function generate(element: React.ReactElement) {
+import { Destination } from "./API/Destination";
+
+function generate(element: React.ReactElement, dests: Destination[]) {
   return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) =>
     React.cloneElement(element, {
       key: value,
@@ -20,7 +22,11 @@ const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
-export default function DestinationAllList() {
+type DestinationAllListProps = {
+  dests: Destination[]
+}
+
+export default function DestinationAllList({dests} : DestinationAllListProps) {
   const [secondary, setSecondary] = React.useState(false);
 
   return (
