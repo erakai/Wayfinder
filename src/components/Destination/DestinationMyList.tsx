@@ -28,7 +28,7 @@ type DestinationMyListProps = {
   dests: Destination[]
 }
 
-export default function DestinationMyList({dest} : DestinationMyListProps) {
+export default function DestinationMyList({dests} : DestinationMyListProps) {
   const [secondary, setSecondary] = React.useState(false);
 
   return (

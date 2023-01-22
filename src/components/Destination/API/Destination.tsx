@@ -23,7 +23,7 @@ type DestinationSeed = {
 }
 
 class Destination {
-	readonly id: ""; // firebase id, if -1 failed to load
+	readonly id: string; // firebase id, if -1 failed to load
 	readonly key: number; // id given by mapping
 	readonly access : string[];
 	userUpVotes: string[];
@@ -35,7 +35,7 @@ class Destination {
 
 	constructor(destSeed : DestinationSeed) {
 		this.id = destSeed.id;
-		this.key = destSeed.key;
+		this.key = parseInt(destSeed.key);
 		this.access = destSeed.access;
 		this.link = destSeed.link;
 		this.userUpVotes = destSeed.userUpVotes;
@@ -50,4 +50,5 @@ class Destination {
 	}
 }
 
-export { Destination, DestinationSeed }
+export { Destination };
+export type { DestinationSeed };

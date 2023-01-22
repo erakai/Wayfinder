@@ -1,10 +1,10 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore/lite';
-import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged, OAuthCredential } from "firebase/auth";
 
 import { refreshAuth } from "../views/Root/Root"
 
-import { createWayfinderAlert } from "../components/Structure/AlertList.tsx";
+import { createWayfinderAlert } from "../components/Structure/AlertList";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDuZpt54LVcberS1qWFgqYIU8Nx1Ek9EWI",
@@ -34,7 +34,7 @@ export async function popupLogin() {
     signInWithPopup(firebase_auth, provider)
         .then((result) => {
             const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
+            const token = (credential as OAuthCredential).accessToken;
             const user = result.user;
             firebase_auth = getAuth();
         }).catch((error) => {

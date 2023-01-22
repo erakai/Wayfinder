@@ -20,13 +20,13 @@ enum DestinationFirebaseStatus {
 type DestinationFirebaseResponse = {
   status : DestinationFirebaseStatus,
   message : string,
-  destinations : Desintation[]
+  destinations : Destination[]
 }
 
 class DestinationFirebase {
   private static instance: DestinationFirebase;
 
-  private constructor() { }""
+  private constructor() { }
 
   public static getInstance(): DestinationFirebase {
       if (!DestinationFirebase.instance) {
@@ -43,7 +43,7 @@ class DestinationFirebase {
       get(child(dbRef, 'destinations/')).then((snapshot) => {
           if (snapshot.exists()) {
             const from = snapshot.val();
-            const dest : Desintation[] = _this.convertFirebaseToDestination(from)
+            const dest : Destination[] = _this.convertFirebaseToDestination(from)
 
             const response : DestinationFirebaseResponse = {
               status: DestinationFirebaseStatus.SUCCESS,
@@ -71,7 +71,7 @@ class DestinationFirebase {
   }
 
 
-  public async writeDestination(dest : Destination) : DestinationFirebaseResponse {
+  public async writeDestination(dest : Destination) : Promise<DestinationFirebaseResponse> {
     const writeMethod = dest.id ? set : push;
     return new Promise(function (resolve, reject) {
       writeMethod(ref(db, 'destinations/' + dest.id), {
@@ -104,12 +104,12 @@ class DestinationFirebase {
     keys.forEach(key => {
       const destSeed : DestinationSeed = {
         id : key,
-        key: i,
-        access: from[key].access,
-        link: from[key].mapID,
-        votes: from[key].votes,
-        userUpVotes: from[key].userUpVotes,
-        userDownVotes: from[key].userDownVotes
+        key: String(i),
+        access: from[i].access,
+        link: from[i].mapID,
+        votes: from[i].votes,
+        userUpVotes: from[i].userUpVotes,
+        userDownVotes: from[i].userDownVotes
       }
 
       dest.push(new Destination(destSeed))

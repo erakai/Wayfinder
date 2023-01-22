@@ -1,5 +1,5 @@
 import  React, { useState, useEffect } from 'react'
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -23,13 +23,13 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function DestinationGrid() {
-  const [dests, setDests] = useState<Destination[]>(null);
+  const [dests, setDests] = useState<Destination[]>([]);
 
   useEffect(() => {
     if (!dests) {
       const promiseDests = DestinationFirebase.getInstance().readAllDestinations();
       promiseDests.then((response) => {
-        setDests(response.destinations)
+        setDests((response as any).destinations)
       })
       .catch((error) => {
         createWayfinderAlert("error", error.message);
@@ -44,7 +44,7 @@ export default function DestinationGrid() {
       </Grid>
       {firebase_auth.currentUser ?
       <Grid xs={6} md={4}>
-        <DestinationMyList />
+        <DestinationMyList dests={[]} />
       </Grid> : null}
     </Grid>
   )

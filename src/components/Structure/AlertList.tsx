@@ -1,14 +1,11 @@
 import  React, { useState } from 'react'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 
 import WayfinderAlert from "./Alert"
 
-let addAlert = () => {}
+let addAlert = (alertValue: AlertValues) => {}
 
 function createWayfinderAlert(t: string, m: string) {
 	const c : AlertValues = {type: t, message: m}
@@ -65,7 +62,7 @@ function AlertList() {
 			>
 			<List sx={{maxWidth: "50%", maxHeight: "20%"}}>
 		      {generate(
-		      		<WayfinderAlert />, alerts
+		      		<WayfinderAlert key={''} type={'success'} message={''} />, alerts
 		  		)}
 		    </List>
 		    </Grid>	

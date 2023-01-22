@@ -236,7 +236,7 @@ export default function TopBar() {
                 sx={{ bgcolor: letteringColor }}
                 alt=""
                 imgProps={{ referrerPolicy: "no-referrer" }}
-                src={firebase_auth.currentUser ? firebase_auth.currentUser.photoURL : ""}
+                src={firebase_auth.currentUser ? firebase_auth.currentUser.photoURL as string : ""}
               >
               </Avatar>
             </IconButton>
