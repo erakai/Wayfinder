@@ -1,27 +1,21 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 
 import Map from '../../components/Map/Map';
+import Sidebar from './Sidebar';
 
-const drawerWidth = 240;
+const drawerWidth = 320;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
@@ -72,7 +66,23 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-start',
 }));
 
-export default function MainDrawer() {
+type OverlayProps = {
+    editable: boolean,
+    publish: () => void,
+    markers: SerializableMarker[],
+    setMarkers: React.Dispatch<React.SetStateAction<SerializableMarker[]>>,
+    title: string,
+    setTitle: React.Dispatch<React.SetStateAction<string>>,
+    center: number[],
+    setCenter: React.Dispatch<React.SetStateAction<number[]>>,
+    desc: string,
+    setDesc: React.Dispatch<React.SetStateAction<string>>,
+    city: string,
+    setCity: React.Dispatch<React.SetStateAction<string>>,
+}
+
+export default function Overlay({editable, publish, markers, setMarkers, title, setTitle, 
+                                center, setCenter, desc, setDesc, city, setCity}: OverlayProps) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -90,7 +100,7 @@ export default function MainDrawer() {
       <AppBar position="fixed" sx={{"backgroundColor": "#f2f5f7"}}open={open}>
         <Toolbar>
           <Typography variant="h6" align="center" noWrap sx={{ color: "#212121", flexGrow: 1, fontWeight: 'bold' }} component="div">
-            Wayfinder
+            {title}
           </Typography>
           <IconButton
             aria-label="open drawer"
@@ -104,7 +114,7 @@ export default function MainDrawer() {
       </AppBar>
       <Main open={open}>
         <DrawerHeader />
-          <Map editable={true} lat={40.418840} lng={-86.898973}/>
+          <Map setCenter={setCenter} markers={markers} setMarkers={setMarkers} editable={editable} center={center}/>
       </Main>
       <Drawer
         sx={{
@@ -120,10 +130,13 @@ export default function MainDrawer() {
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            <ChevronRightIcon/>
           </IconButton>
+          Map Settings
         </DrawerHeader>
         <Divider />
+        <Sidebar editable={editable} publish={publish} title={title} setTitle={setTitle} center={center}
+                    desc={desc} setDesc={setDesc} city={city} setCity={setCity}/>
       </Drawer>
     </Box>
   );

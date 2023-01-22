@@ -1,11 +1,11 @@
 import { useGoogleMap } from "@react-google-maps/api"
 import { PropsWithChildren, useEffect, useRef } from "react"
 
-interface MapControlProps {
+interface MyMapControlProps {
     position: keyof typeof google.maps.ControlPosition
 }
 
-export default function EditMapControl(props: PropsWithChildren<MapControlProps>) {
+export default function MyMapControl(props: PropsWithChildren<MyMapControlProps>) {
     const map = useGoogleMap()
     const ref = useRef(document.createElement('div'))
     

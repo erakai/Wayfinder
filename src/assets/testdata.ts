@@ -2,6 +2,8 @@ export const maps = [
    { 
         'title': "Test Map of West Lafayette, Indiana",
         'center': [40.418892, -86.898890],
+        'desc': "A description",
+        'city': 'West Lafayette',
         'markers': {
             'marker1': {
                 'name': "Marker One",

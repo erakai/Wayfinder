@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -160,8 +160,7 @@ export default function TopBar() {
             noWrap
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' }, color: letteringColor, fontWeight: 'bold' }}
-            direction="row" 
-            alignItems="center"
+            style={{ "alignItems": "center" }}
           >
             Wayfinder
           </Typography>

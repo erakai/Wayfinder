@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Grid from "@mui/material/Grid";
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
+import { Link } from 'react-router-dom'
 
 import DestinationCard from "./DestinationCard";
 
@@ -39,7 +40,7 @@ export default function DestinationMyList() {
             <Grid item xs={3}>                                 
               <Grid container direction="row-reverse" sx={{width: 'auto'}}>      
                 <Grid item>
-                  <Button sx={{mt: 4, mb: 3}} variant="contained" color="success">New Map</Button>
+                  <Button component={Link} to="/editor" sx={{mt: 4, mb: 3}} variant="contained" color="success">New Map</Button>
                 </Grid>
               </Grid>
             </Grid>

@@ -8,7 +8,7 @@ export default function Root() {
       <BrowserRouter>
         <Routes>
           <Route index path="/" element={<Finder />} />
-          <Route index path="/editor" element={<Editor />} />
+          <Route index path="/editor" element={<Editor editable={true}/>} />
           <Route path="*" element={<h1>Error: 404</h1>} />
         </Routes>
       </BrowserRouter>
