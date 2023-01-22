@@ -57,7 +57,7 @@ export default function Sidebar({ editable, publish, title, setTitle,
           defaultValue={desc}
           disabled={!editable}
         />
-        <TextField style={{"marginBottom": "20px"}} label="City" variant="outlined" />
+        <TextField disabled={!editable} style={{"marginBottom": "20px"}} label="City" variant="outlined" />
         <PublishButton editable={editable} publish={publish}/>
       </Container>
     </div>

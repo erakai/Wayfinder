@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, styled, useTheme } from '@mui/material/';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, styled, useTheme } from '@mui/material/';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import Map from '../../components/Map/Map';
 import Sidebar from './Sidebar';
@@ -85,7 +85,9 @@ type OverlayProps = {
 export default function Overlay({editable, publish, markers, setMarkers, title, setTitle, 
                                 center, setCenter, desc, setDesc, city, setCity}: OverlayProps) {
   const theme = useTheme();
+  const navigate = useNavigate()
   const [open, setOpen] = React.useState(false);
+  const [dialogOpen, setDialogOpen] = React.useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -95,12 +97,21 @@ export default function Overlay({editable, publish, markers, setMarkers, title, 
     setOpen(false);
   };
 
+  const handleGoBack = () => {
+    navigate("/") 
+  }
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false)
+  }
+
   return (
+    <div>
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" sx={{"backgroundColor": "#f2f5f7"}}open={open}>
         <Toolbar>
-          <IconButton component={Link} to="/" aria-label="delete" color="primary">
+          <IconButton onClick={() => setDialogOpen(true)} aria-label="delete" color="primary">
             <KeyboardBackspaceIcon />
           </IconButton>
             <Typography variant="h6" align="center" noWrap sx={{ color: "#212121", flexGrow: 1, fontWeight: 'bold' }} component="div">
@@ -143,5 +154,25 @@ export default function Overlay({editable, publish, markers, setMarkers, title, 
                     desc={desc} setDesc={setDesc} city={city} setCity={setCity}/>
       </Drawer>
     </Box>
+    <Dialog
+    open={dialogOpen}
+    onClose={handleCloseDialog}
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description"
+  >
+      <DialogTitle id="alert-dialog-title">
+        {"Discard current map?"}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          You will not be able to return to this map. All current progress will be lost. 
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button color="success" onClick={handleCloseDialog} autoFocus>No</Button>
+        <Button color="warning" onClick={handleGoBack}>Yes</Button>
+      </DialogActions>
+    </Dialog>
+  </div>
   );
 }

@@ -1,10 +1,11 @@
 import  React, { useState, useCallback, useRef } from 'react'
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
 import MarkerWrapper from '../Marker/MarkerWrapper';
 import MapSpinner from '../Misc/MapSpinner';
 import ButtonControl from './ButtonControl';
 import SearchControl from './SearchControl';
 import useForceUpdate from '../../hooks/useForceUpdate';
+import MarkerModal from '../Marker/MarkerModal';
 
 const styles: Record<string, google.maps.MapTypeStyle[]> = {
   default: [],
@@ -34,12 +35,24 @@ type MapProps = {
 }
 
 function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
-  const forceUpdate = useForceUpdate()
+  const [modalIdx, setModalIdx] = useState(-1)
+  const [modalOpen, setModalOpen] = useState(false)
+
   const [canAdd, setCanAdd] = useState(false)
   const [centering, setCentering] = useState(false)
   const [visibleIcons, setVisibleIcons] = useState(false)
   const [map, setMap] = useState<any>(null)
   const realCenter = useRef(center) // the actual current location of the map
+
+  const forceUpdate = useForceUpdate()
+
+  const handleModalOpen = () => {
+    setModalOpen(true)
+  }
+
+  const handleModalClose = () => {
+    setModalOpen(false)
+  }
 
   const onVisibleButtonClick = () => {
     if (!visibleIcons) {
@@ -64,7 +77,7 @@ function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
   const onMapClick = (e: google.maps.MapMouseEvent) => {
     if (canAdd) {
       let newMarker: SerializableMarker = {
-        name: "New Marker " + markers.length,
+        name: "New Marker",
         center: e.latLng?.toJSON(),
         info: "",
         link: ""
@@ -106,27 +119,34 @@ function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
     setMap(null)
   }, [])
 
-  return isLoaded ? (
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={{lat: realCenter.current[0], lng: realCenter.current[1]}}
-        zoom={15}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
-        onClick={onMapClick}
-        onCenterChanged={handleCenterChange}
-        options={{streetViewControl: false}}
-      >
-        {markers.map(m => {
-          return <MarkerWrapper key={m.name} data={m}/>
-        })}
-        <ButtonControl editable={editable} visibleIcons={visibleIcons} canAdd={canAdd} 
-          onVisibleButtonClick={onVisibleButtonClick} onAddButtonClick={onAddButtonClick}
-          centering={centering} onCenterButtonClick={onCenterButtonClick} 
-          onGotoClick={onGotoClick}/>
-        <SearchControl editable={editable} setCenter={setCenter} center={center}/>
-      </GoogleMap>
-  ) : <MapSpinner/>
+  return (
+    <div>
+      {isLoaded ? (
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={{lat: realCenter.current[0], lng: realCenter.current[1]}}
+          zoom={15}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+          onClick={onMapClick}
+          onCenterChanged={handleCenterChange}
+          options={{streetViewControl: false}}
+        >
+          {markers.map((m, idx) => {
+            return (
+                <MarkerWrapper setModalIdx={setModalIdx} handleModalOpen={handleModalOpen} markers={markers} idx={idx}/>
+            )
+          })}
+          <ButtonControl editable={editable} visibleIcons={visibleIcons} canAdd={canAdd} 
+            onVisibleButtonClick={onVisibleButtonClick} onAddButtonClick={onAddButtonClick}
+            centering={centering} onCenterButtonClick={onCenterButtonClick} 
+            onGotoClick={onGotoClick}/>
+          <SearchControl editable={editable} setCenter={setCenter} center={center}/>
+        </GoogleMap>
+      ) : <MapSpinner/>}
+      <MarkerModal editable={editable} setMarkers={setMarkers} modalOpen={modalOpen} handleModalClose={handleModalClose} markers={markers} idx={modalIdx}/>
+    </div>
+  )
 }
 
 export default Map

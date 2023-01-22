@@ -1,8 +1,6 @@
 import  React, { useState, useCallback } from 'react'
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-import MarkerWrapper from '../Marker/MarkerWrapper';
 import MapSpinner from '../Misc/MapSpinner';
-import { IconButton } from '@mui/material';
 
 const styles: Record<string, google.maps.MapTypeStyle[]> = {
   default: [],
@@ -13,6 +11,14 @@ const styles: Record<string, google.maps.MapTypeStyle[]> = {
     },
     {
       featureType: "transit",
+      stylers: [{ visibility: "off" }],
+    },
+    {
+      featureType: "road",
+      stylers: [{ visibility: "off" }],
+    },
+    {
+      featureType: "administrative",
       stylers: [{ visibility: "off" }],
     },
   ],
@@ -28,7 +34,7 @@ type MapProps = {
   lng: number
 }
 
-function Map({editable, lat, lng}: MapProps) {
+function Map({lat, lng}: MapProps) {
   const [map, setMap] = useState<any>(null)
   const [center, setCenter] = useState({lat: lat, lng: lng})
 
@@ -63,7 +69,7 @@ export default function MapBackground() {
   return (
     <div>
       <div id="googlemaps">
-        <Map editable={false} lat={40.418840} lng={-86.898973}/>
+        <Map lat={40.418840} lng={-86.898973}/>
       </div>
       <style>
         {

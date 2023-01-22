@@ -1,12 +1,26 @@
-import { Container } from "@mui/system"
-import { Marker } from "@react-google-maps/api"
-import { useEffect, useState } from "react"
+import { InfoWindow, Marker } from "@react-google-maps/api"
+import '../../styles/markerstyles.css'
 
 type MarkerProps = {
-    data: SerializableMarker
+    setModalIdx: React.Dispatch<React.SetStateAction<number>>
+    handleModalOpen: () => void
+    markers: SerializableMarker[]
+    idx: number
  }
 
-export default function MarkerWrapper({data}: MarkerProps) {
+export default function MarkerWrapper({setModalIdx, handleModalOpen, markers, idx}: MarkerProps) {
+    let label = {
+        text: markers[idx].name,
+        className: 'markerlabel'
+    }
 
-    return <Marker position={data.center}/>
+    const onMarkerClick = () => {
+        setModalIdx(idx)
+        handleModalOpen()
+    }
+
+    return (
+        <Marker onClick={onMarkerClick} position={markers[idx].center} label={label} opacity={0.9}/>
+    )
+
 }
