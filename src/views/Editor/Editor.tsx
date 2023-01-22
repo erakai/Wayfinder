@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import WayfinderAlert from "../../components/Structure/Alert";
+import { Destination, DestinationSeed } from "../../components/Destination/API/Destination";
 import { createWayfinderAlert } from "../../components/Structure/AlertList";
 import Overlay from "../../components/Structure/Overlay";
+import { DestinationFirebase } from "../../util/DestinationFirebase";
 import { firebase_auth } from "../../util/Firebase";
 import { attemptMapFetch, writeMap } from "../../util/MapFirebase";
 
@@ -47,7 +48,7 @@ export default function Editor({editable}: EditorProps) {
     }
   }, [])
 
-  const publish = () => {
+  const publish = async () => {
     let map: SerializableMap = {
       title: title,
       desc: desc,
@@ -56,9 +57,21 @@ export default function Editor({editable}: EditorProps) {
       markers: markers
     }
     let uid = user.uid
-    writeMap(map, uid) 
+    let received: any = await writeMap(map, uid)
     createWayfinderAlert('success', 'Map Published!')
     navigate('/')
+
+    let link = received._path.pieces_[1]
+    let seed: DestinationSeed = {
+      id: "",
+      key: "",
+      access: [uid],
+      link: link,
+      userUpVotes: [],
+      userDownVotes: []
+    }
+
+    DestinationFirebase.getInstance().writeDestination(new Destination(seed))
   }
 
   return (

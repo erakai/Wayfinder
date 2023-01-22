@@ -4,7 +4,7 @@ const db = getDatabase()
 const MAP_LINK = 'maps/'
 
 export async function writeMap(map: SerializableMap, owner: string) {
-    push(ref(db, MAP_LINK), {
+    return await push(ref(db, MAP_LINK), {
         title: map.title,
         desc: map.desc,
         city: map.city,

@@ -5,6 +5,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddIcon from '@mui/icons-material/Add';
 import PushPinIcon from '@mui/icons-material/PushPin';
+import RemoveIcon from '@mui/icons-material/Remove';
 import CallMissedOutgoingIcon from '@mui/icons-material/CallMissedOutgoing';
 
 type ButtonControlProps = {
@@ -15,12 +16,14 @@ type ButtonControlProps = {
     onAddButtonClick: () => void,
     centering: boolean,
     onCenterButtonClick: () => void,
+    onRemoveButtonClick: () => void,
+    canRemove: boolean
     onGotoClick: () => void
 }
 
 export default function ButtonControl({editable, visibleIcons, onVisibleButtonClick, 
                                         canAdd, onAddButtonClick, centering,
-                                        onCenterButtonClick, onGotoClick}: ButtonControlProps) {
+                                        onCenterButtonClick, onGotoClick, canRemove, onRemoveButtonClick}: ButtonControlProps) {
     return (
         <MyMapControl  position="BOTTOM_CENTER">
             <Tooltip title="Toggle Places">
@@ -29,13 +32,18 @@ export default function ButtonControl({editable, visibleIcons, onVisibleButtonCl
                 </IconButton>
             </Tooltip>
             {editable ? 
-            [<Tooltip title="Add Marker">
-                <IconButton disabled={!editable} color="primary" size="large" onClick={onAddButtonClick}>
+            [<Tooltip title="Remove Marker">
+                <IconButton color="primary" size="large" onClick={onRemoveButtonClick}>
+                    {canRemove ? <MoreHorizIcon /> : <RemoveIcon />}
+                </IconButton>
+            </Tooltip>,
+            <Tooltip title="Add Marker">
+                <IconButton color="primary" size="large" onClick={onAddButtonClick}>
                     {canAdd ? <MoreHorizIcon /> : <AddIcon />}
                 </IconButton>
             </Tooltip>,
             <Tooltip title="Set Center">
-                <IconButton disabled={!editable} color="secondary" size="large" onClick={onCenterButtonClick}>
+                <IconButton color="secondary" size="large" onClick={onCenterButtonClick}>
                     {centering ? <MoreHorizIcon /> : <PushPinIcon />}
                 </IconButton>
             </Tooltip>]

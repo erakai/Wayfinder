@@ -56,7 +56,7 @@ function Map({lat, lng}: MapProps) {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={15}
+        zoom={8}
         onLoad={onLoad}
         onUnmount={onUnmount}
         options={{streetViewControl: false}}

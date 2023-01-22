@@ -39,9 +39,11 @@ function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
   const [modalIdx, setModalIdx] = useState(-1)
   const [modalOpen, setModalOpen] = useState(false)
 
+  const [canRemove, setCanRemove] = useState(false)
   const [canAdd, setCanAdd] = useState(false)
   const [centering, setCentering] = useState(false)
   const [visibleIcons, setVisibleIcons] = useState(false)
+
   const [map, setMap] = useState<any>(null)
   const realCenter = useRef(center) // the actual current location of the map
 
@@ -55,6 +57,14 @@ function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
     setModalOpen(false)
   }
 
+  const onMarkerRemove = (idx: number) => {
+    let newMarkers = markers
+    delete newMarkers[idx]
+    setMarkers(markers)
+    forceUpdate()
+    setCanRemove(false)
+  }
+
   const onVisibleButtonClick = () => {
     if (!visibleIcons) {
       map!.setOptions({styles: styles["default"]})
@@ -65,14 +75,22 @@ function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
     setVisibleIcons(!visibleIcons)
   }
 
+  const onRemoveButtonClick = () => {
+    setCanRemove(!canRemove)
+    if (centering) setCentering(false)
+    if (canAdd) setCanAdd(false)
+  }
+
   const onAddButtonClick = () => {
     setCanAdd(!canAdd)
     if (centering) setCentering(false)
+    if (canRemove) setCanRemove(false)
   }
 
   const onCenterButtonClick = () => {
     setCentering(!centering)
     if (canAdd) setCanAdd(false)
+    if (canRemove) setCanRemove(false)
   }
 
   const onMapClick = (e: google.maps.MapMouseEvent) => {
@@ -93,12 +111,16 @@ function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
       setCentering(false)
       createWayfinderAlert('success', 'Successfully set center.')
     }
+    if (canRemove) {
+      setCanRemove(false)
+    }
   }
 
   const onGotoClick = () => {
     realCenter.current = center
     setCanAdd(false)
     setCentering(false)
+    setCanRemove(false)
     forceUpdate()
   }
   
@@ -137,13 +159,14 @@ function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
         >
           {markers.map((m, idx) => {
             return (
-                <MarkerWrapper setModalIdx={setModalIdx} handleModalOpen={handleModalOpen} markers={markers} idx={idx}/>
+                <MarkerWrapper setModalIdx={setModalIdx} handleModalOpen={handleModalOpen} 
+                  canRemove={canRemove} onMarkerRemove={onMarkerRemove} markers={markers} idx={idx}/>
             )
           })}
           <ButtonControl editable={editable} visibleIcons={visibleIcons} canAdd={canAdd} 
             onVisibleButtonClick={onVisibleButtonClick} onAddButtonClick={onAddButtonClick}
             centering={centering} onCenterButtonClick={onCenterButtonClick} 
-            onGotoClick={onGotoClick}/>
+            onGotoClick={onGotoClick} onRemoveButtonClick={onRemoveButtonClick} canRemove={canRemove}/>
           <SearchControl editable={editable} setCenter={setCenter} center={center}/>
         </GoogleMap>
       ) : <MapSpinner/>}

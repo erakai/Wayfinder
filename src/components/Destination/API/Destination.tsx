@@ -14,8 +14,8 @@ enum voteStatus {
 }
 
 type DestinationSeed = {
-	id : string,
-	key : string,
+	id: string,
+	key: string,
 	access : string[],
 	link : string,
 	userUpVotes : string[]
