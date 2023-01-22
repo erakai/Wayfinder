@@ -1,9 +1,10 @@
-import  React, { useState, useCallback } from 'react'
+import  React, { useState, useCallback, useRef } from 'react'
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import MarkerWrapper from '../Marker/MarkerWrapper';
 import MapSpinner from '../Misc/MapSpinner';
 import ButtonControl from './ButtonControl';
 import SearchControl from './SearchControl';
+import useForceUpdate from '../../hooks/useForceUpdate';
 
 const styles: Record<string, google.maps.MapTypeStyle[]> = {
   default: [],
@@ -33,10 +34,12 @@ type MapProps = {
 }
 
 function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
+  const forceUpdate = useForceUpdate()
   const [canAdd, setCanAdd] = useState(false)
   const [centering, setCentering] = useState(false)
   const [visibleIcons, setVisibleIcons] = useState(false)
   const [map, setMap] = useState<any>(null)
+  const realCenter = useRef(center) // the actual current location of the map
 
   const onVisibleButtonClick = () => {
     if (!visibleIcons) {
@@ -73,7 +76,19 @@ function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
       let newCenter = e.latLng?.toJSON()
       setCenter([newCenter?.lat as number, newCenter?.lng as number])
       setCentering(false)
-      console.log(center)
+    }
+  }
+
+  const onGotoClick = () => {
+    realCenter.current = center
+    setCanAdd(false)
+    setCentering(false)
+    forceUpdate()
+  }
+  
+  const handleCenterChange = () => {
+    if (map) {
+      realCenter.current = ([map.getCenter().lat(), map.getCenter().lng()])
     }
   }
 
@@ -94,11 +109,12 @@ function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
   return isLoaded ? (
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={{lat: center[0], lng: center[1]}}
+        center={{lat: realCenter.current[0], lng: realCenter.current[1]}}
         zoom={15}
         onLoad={onLoad}
         onUnmount={onUnmount}
         onClick={onMapClick}
+        onCenterChanged={handleCenterChange}
         options={{streetViewControl: false}}
       >
         {markers.map(m => {
@@ -106,7 +122,8 @@ function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
         })}
         <ButtonControl editable={editable} visibleIcons={visibleIcons} canAdd={canAdd} 
           onVisibleButtonClick={onVisibleButtonClick} onAddButtonClick={onAddButtonClick}
-          centering={centering} onCenterButtonClick={onCenterButtonClick}/>
+          centering={centering} onCenterButtonClick={onCenterButtonClick} 
+          onGotoClick={onGotoClick}/>
         <SearchControl editable={editable} setCenter={setCenter} center={center}/>
       </GoogleMap>
   ) : <MapSpinner/>

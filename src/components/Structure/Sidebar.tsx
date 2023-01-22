@@ -53,7 +53,7 @@ export default function Sidebar({ editable, publish, title, setTitle,
           id="outlined-multiline-static"
           label="Notes"
           multiline
-          rows={20}
+          rows={15}
           defaultValue={desc}
           disabled={!editable}
         />

@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { IconButton, TextField, Tooltip } from "@mui/material";
 import MyMapControl from "./MyMapControl";
 
 type SearchControlProps = {
@@ -32,6 +32,7 @@ export default function SearchControl({editable, center, setCenter}: SearchContr
                 disabled={!editable}
                 onChange={(e) => setCenter([center[0], parseFloat(e.target.value)])}
             />
+
         </MyMapControl>
     )
 }

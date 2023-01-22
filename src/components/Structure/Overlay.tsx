@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/';
+import { Button, styled, useTheme } from '@mui/material/';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
@@ -9,8 +9,9 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { Link } from 'react-router-dom'
 
 import Map from '../../components/Map/Map';
 import Sidebar from './Sidebar';
@@ -99,7 +100,10 @@ export default function Overlay({editable, publish, markers, setMarkers, title, 
       <CssBaseline />
       <AppBar position="fixed" sx={{"backgroundColor": "#f2f5f7"}}open={open}>
         <Toolbar>
-          <Typography variant="h6" align="center" noWrap sx={{ color: "#212121", flexGrow: 1, fontWeight: 'bold' }} component="div">
+          <IconButton component={Link} to="/" aria-label="delete" color="primary">
+            <KeyboardBackspaceIcon />
+          </IconButton>
+            <Typography variant="h6" align="center" noWrap sx={{ color: "#212121", flexGrow: 1, fontWeight: 'bold' }} component="div">
             {title}
           </Typography>
           <IconButton
