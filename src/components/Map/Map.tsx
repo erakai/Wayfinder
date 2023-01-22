@@ -63,6 +63,7 @@ function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
     setMarkers(markers)
     forceUpdate()
     setCanRemove(false)
+    if (markers.length == 0) setModalIdx(-1)
   }
 
   const onVisibleButtonClick = () => {
@@ -100,7 +101,8 @@ function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
         name: "New Marker",
         center: [centerJson.lat, centerJson.lng],
         info: "",
-        link: ""
+        link: "",
+        color: "#f54254"
       }
       setMarkers(markers => [...markers, newMarker])
       setCanAdd(false)

@@ -1,5 +1,6 @@
 import { Backdrop, Box, Container, Fade, InputAdornment, Modal, TextField, Typography } from "@mui/material"
 import RoomIcon from '@mui/icons-material/Room';
+import { BlockPicker, CirclePicker, SliderPicker } from "@hello-pangea/color-picker";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -27,16 +28,27 @@ export default function MarkerModal({editable, modalOpen, handleModalClose, setM
     const onNameChange = (e: any) => {
         let newMarkers = markers
         newMarkers[idx].name = e.target.value
+        setMarkers(newMarkers)
     }
 
     const onInfoChange = (e: any) => {
         let newMarkers = markers
         newMarkers[idx].info = e.target.value
+        setMarkers(newMarkers)
     }
 
     const onLinkChange = (e: any) => {
         let newMarkers = markers
         newMarkers[idx].link = e.target.value
+        setMarkers(newMarkers)
+    }
+    
+    const onColorChange = (e: any) => {
+        if (editable) {
+            let newMarkers = markers
+            newMarkers[idx].color = e.hex
+            setMarkers(newMarkers)
+        }
     }
 
     return (
@@ -80,6 +92,7 @@ export default function MarkerModal({editable, modalOpen, handleModalClose, setM
                                 />
                                 <TextField fullWidth disabled={!editable} onChange={onLinkChange} defaultValue={markers[idx].link}
                                     style={{"marginBottom": "20px"}} label="Link" variant="outlined" />
+                                <SliderPicker color={markers[idx].color} onChange={onColorChange}></SliderPicker>
                             </Container>
                         </div> 
                     </Box>

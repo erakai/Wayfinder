@@ -161,7 +161,7 @@ export default function Overlay({editable, publish, markers, setMarkers, title, 
     aria-describedby="alert-dialog-description"
   >
       <DialogTitle id="alert-dialog-title">
-        {editable ? "Discard current map?" : "Leave currenet map?"}
+        {editable ? "Discard current map?" : "Leave current map?"}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
