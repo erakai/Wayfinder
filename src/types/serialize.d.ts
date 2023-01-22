@@ -4,6 +4,7 @@ interface SerializableMarker {
     center: array<number>
     info: string
     link: string
+    color: string
 }
 
 interface SerializableMap {
