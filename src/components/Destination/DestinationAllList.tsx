@@ -10,13 +10,14 @@ import DestinationCard from "./DestinationCard";
 
 import { Destination } from "./API/Destination";
 
-function generate(element: React.ReactElement, dests: Destination[]) {
+function generate(element: React.ReactElement, dests: Destination[], refresh : any) {
   if (dests) {
-    return dests.map((dest) =>
-      React.cloneElement(element, {
+    return dests.map((dest) => {
+      return React.cloneElement(element, {
         key: dest.key,
-      }),
-    );
+        dest: dest,
+      })
+    });
   }
 }
 
@@ -29,8 +30,6 @@ type DestinationAllListProps = {
 }
 
 export default function DestinationAllList({dests} : DestinationAllListProps) {
-  const [secondary, setSecondary] = React.useState(false);
-
   return (
     <Box sx={{ flexGrow: 1}}>
       <Grid container spacing={2}>
@@ -41,7 +40,7 @@ export default function DestinationAllList({dests} : DestinationAllListProps) {
               </Typography>
             </Paper>
             <Paper style={{maxHeight: '75vh', overflow: 'auto'}}>
-              <List>
+              <List component="div">
                 {generate(
                   <DestinationCard />,
                   dests

@@ -105,11 +105,11 @@ class DestinationFirebase {
       const destSeed : DestinationSeed = {
         id : key,
         key: String(i),
-        access: from[i].access,
-        link: from[i].mapID,
-        votes: from[i].votes,
-        userUpVotes: from[i].userUpVotes,
-        userDownVotes: from[i].userDownVotes
+        access: from[key].access,
+        link: from[key].mapID,
+        votes: from[key].votes,
+        userUpVotes: from[key].userUpVotes,
+        userDownVotes: from[key].userDownVotes
       }
 
       dest.push(new Destination(destSeed))

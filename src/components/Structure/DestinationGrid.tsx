@@ -23,7 +23,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function DestinationGrid() {
-  const [dests, setDests] = useState<Destination[]>([]);
+  const [dests, setDests] = useState<Destination[] | null>(null);
 
   useEffect(() => {
     if (!dests) {

@@ -22,8 +22,18 @@ type DestinationSeed = {
 	userDownVotes : string[]
 }
 
+type DestinationCardInfo = {
+	key: number,
+	link: string,
+	isUpVote: boolean,
+	isDownVote: boolean,
+	votes: number,
+	title: string,
+	tags: string[]
+}
+
 class Destination {
-	readonly id: string; // firebase id, if -1 failed to load
+	readonly id: ""; // firebase id, if -1 failed to load
 	readonly key: number; // id given by mapping
 	readonly access : string[];
 	userUpVotes: string[];
@@ -35,13 +45,16 @@ class Destination {
 
 	constructor(destSeed : DestinationSeed) {
 		this.id = destSeed.id;
-		this.key = parseInt(destSeed.key);
+		this.key = destSeed.key;
 		this.access = destSeed.access;
 		this.link = destSeed.link;
 		this.userUpVotes = destSeed.userUpVotes;
 		this.userDownVotes = destSeed.userDownVotes;
 
-		this.votes = destSeed.userUpVotes ? destSeed.userUpVotes.length : 0;
+		const ups = destSeed.userUpVotes ? destSeed.userUpVotes.length : 0;
+		const downs = destSeed.userDownVotes ? destSeed.userDownVotes.length : 0;
+
+		this.votes = ups - downs;
 
 		// firebase query (need kai's stuff)
 		
@@ -50,5 +63,4 @@ class Destination {
 	}
 }
 
-export { Destination };
-export type { DestinationSeed };
+export { Destination, DestinationSeed, DestinationCardInfo }
