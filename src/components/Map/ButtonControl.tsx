@@ -28,16 +28,18 @@ export default function ButtonControl({editable, visibleIcons, onVisibleButtonCl
                     {visibleIcons ? <VisibilityIcon /> : <VisibilityOffIcon />}
                 </IconButton>
             </Tooltip>
-            <Tooltip title="Add Marker">
+            {editable ? 
+            [<Tooltip title="Add Marker">
                 <IconButton disabled={!editable} color="primary" size="large" onClick={onAddButtonClick}>
                     {canAdd ? <MoreHorizIcon /> : <AddIcon />}
                 </IconButton>
-            </Tooltip>
+            </Tooltip>,
             <Tooltip title="Set Center">
                 <IconButton disabled={!editable} color="secondary" size="large" onClick={onCenterButtonClick}>
                     {centering ? <MoreHorizIcon /> : <PushPinIcon />}
                 </IconButton>
-            </Tooltip>
+            </Tooltip>]
+            : <div></div> }
             <Tooltip title="Go To Center">
                 <IconButton color="secondary" size="large" onClick={onGotoClick} >
                     <CallMissedOutgoingIcon />

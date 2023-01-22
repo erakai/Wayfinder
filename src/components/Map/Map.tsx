@@ -6,6 +6,7 @@ import ButtonControl from './ButtonControl';
 import SearchControl from './SearchControl';
 import useForceUpdate from '../../hooks/useForceUpdate';
 import MarkerModal from '../Marker/MarkerModal';
+import { createWayfinderAlert } from '../Structure/AlertList';
 
 const styles: Record<string, google.maps.MapTypeStyle[]> = {
   default: [],
@@ -76,9 +77,10 @@ function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
 
   const onMapClick = (e: google.maps.MapMouseEvent) => {
     if (canAdd) {
+      let centerJson: any = e.latLng?.toJSON()
       let newMarker: SerializableMarker = {
         name: "New Marker",
-        center: e.latLng?.toJSON(),
+        center: [centerJson.lat, centerJson.lng],
         info: "",
         link: ""
       }
@@ -89,6 +91,7 @@ function Map({markers, setMarkers, editable, center, setCenter}: MapProps) {
       let newCenter = e.latLng?.toJSON()
       setCenter([newCenter?.lat as number, newCenter?.lng as number])
       setCentering(false)
+      createWayfinderAlert('success', 'Successfully set center.')
     }
   }
 

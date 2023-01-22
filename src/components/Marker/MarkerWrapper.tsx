@@ -20,7 +20,7 @@ export default function MarkerWrapper({setModalIdx, handleModalOpen, markers, id
     }
 
     return (
-        <Marker onClick={onMarkerClick} position={markers[idx].center} label={label} opacity={0.9}/>
+        <Marker onClick={onMarkerClick} position={{lat: markers[idx].center[0], lng: markers[idx].center[1]}} label={label} opacity={0.9}/>
     )
 
 }

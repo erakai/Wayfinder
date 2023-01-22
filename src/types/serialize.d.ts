@@ -1,7 +1,7 @@
 
 interface SerializableMarker {
     name: string
-    center: array<int>
+    center: array<number>
     info: string
     link: string
 }

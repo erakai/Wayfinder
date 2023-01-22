@@ -16,9 +16,9 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import InfoIcon from '@mui/icons-material/Info';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
-
 import {createWayfinderAlert} from "./AlertList";
 import {firebase_auth, popupLogin, logout} from "../../util/Firebase"
+import { attemptMapFetch, getAllMaps, getAllMapsByUser } from '../../util/MapFirebase';
 
 const letteringColor = '#212121'
 

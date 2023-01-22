@@ -1,14 +1,14 @@
 import { Backdrop, Box, Container, Fade, InputAdornment, Modal, TextField, Typography } from "@mui/material"
-import StarIcon from '@mui/icons-material/Star';
+import RoomIcon from '@mui/icons-material/Room';
 
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 500,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    border: '1px solid #000',
     boxShadow: 24,
     p: 4,
 }
@@ -23,6 +23,21 @@ type MarkerModalProps = {
 }
 
 export default function MarkerModal({editable, modalOpen, handleModalClose, setMarkers, markers, idx}: MarkerModalProps) {
+
+    const onNameChange = (e: any) => {
+        let newMarkers = markers
+        newMarkers[idx].name = e.target.value
+    }
+
+    const onInfoChange = (e: any) => {
+        let newMarkers = markers
+        newMarkers[idx].info = e.target.value
+    }
+
+    const onLinkChange = (e: any) => {
+        let newMarkers = markers
+        newMarkers[idx].link = e.target.value
+    }
 
     return (
         <Modal
@@ -42,29 +57,29 @@ export default function MarkerModal({editable, modalOpen, handleModalClose, setM
                         <div style={{
                             padding: '5px',
                             marginTop: '5px',
-                            marginLeft: "5px", 
-                            marginRight: "5px",
                             justifyContent: "start",
                             alignItems: "center",
                             textAlign: "center",
                             minHeight: "80",
                         }}>
                             <Container>
-                                <TextField style={{"marginBottom": "5px"}} margin="normal" 
+                                <TextField fullWidth style={{"marginBottom": "5px"}} margin="normal" onChange={onNameChange}
                                 id="standard-basic" label="Marker Name" variant="standard" defaultValue={markers[idx].name} disabled={!editable}
                                 InputProps={{ startAdornment: (
                                     <InputAdornment position="start">
-                                            <StarIcon />
+                                            <RoomIcon />
                                     </InputAdornment>)}}/>
-                                <TextField
+                                <TextField fullWidth onChange={onInfoChange}
                                 style={{"marginTop": "20px", "marginBottom": "20px"}} 
                                 id="outlined-multiline-static"
                                 label="Info"
                                 multiline
                                 rows={10}
+                                defaultValue={markers[idx].info}
                                 disabled={!editable}
                                 />
-                                <TextField disabled={!editable} style={{"marginBottom": "20px"}} label="Link" variant="outlined" />
+                                <TextField fullWidth disabled={!editable} onChange={onLinkChange} defaultValue={markers[idx].link}
+                                    style={{"marginBottom": "20px"}} label="Link" variant="outlined" />
                             </Container>
                         </div> 
                     </Box>

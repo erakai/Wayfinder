@@ -2,6 +2,7 @@ import { Container, InputAdornment, TextField, Typography } from "@mui/material"
 import { styled } from "@mui/material";
 import PublishButton from "../Misc/PublishButton"
 import StarIcon from '@mui/icons-material/Star';
+import { firebase_auth } from "../../util/Firebase";
 
 type SidebarProps = {
   editable: boolean,
@@ -24,6 +25,8 @@ const Div = styled('div')(({ theme }) => ({
 export default function Sidebar({ editable, publish, title, setTitle, 
                                     center, desc, 
                                     setDesc, city, setCity}: SidebarProps) {
+  
+  const user: any = firebase_auth.currentUser
 
   return (
     <div style={{
@@ -37,10 +40,6 @@ export default function Sidebar({ editable, publish, title, setTitle,
         minHeight: "80",
     }}>
       <Container>
-        <div style={{"marginBottom": "20px", "textAlign": "left"}}>
-          <Div>{"USER ID:"}</Div>
-          <Div>{"USER EMAIL:"}</Div>
-        </div>
         <TextField style={{"marginBottom": "5px"}} margin="normal" onChange={(e) => setTitle(e.target.value)} 
           id="standard-basic" label="Project Name" variant="standard" defaultValue={title} disabled={!editable}
           InputProps={{
@@ -53,12 +52,23 @@ export default function Sidebar({ editable, publish, title, setTitle,
           id="outlined-multiline-static"
           label="Notes"
           multiline
-          rows={15}
           defaultValue={desc}
+          onChange={(e) => setDesc(e.target.value)}
+          rows={15}
           disabled={!editable}
         />
-        <TextField disabled={!editable} style={{"marginBottom": "20px"}} label="City" variant="outlined" />
+        <TextField defaultValue={city} onChange={(e) => setCity(e.target.value)} disabled={!editable} style={{"marginBottom": "20px"}} label="City" variant="outlined" />
         <PublishButton editable={editable} publish={publish}/>
+        <div style={{"marginTop": "20px", "textAlign": "left"}}>
+          <Typography variant="subtitle1"> User </Typography>
+          {(user) ?
+            [
+            <Div>{user.displayName}</Div>,
+            <Div>{user.email}</Div>
+            ] : <div></div>
+          }
+          
+        </div>
       </Container>
     </div>
   )
