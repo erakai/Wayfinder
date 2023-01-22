@@ -1,13 +1,14 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import WayfinderAlert from "../../components/Structure/Alert";
 import { createWayfinderAlert } from "../../components/Structure/AlertList";
 import Overlay from "../../components/Structure/Overlay";
 import { firebase_auth } from "../../util/Firebase";
-import { writeMap } from "../../util/MapFirebase";
+import { attemptMapFetch, writeMap } from "../../util/MapFirebase";
 
 type EditorProps = {
   editable: boolean
+  mapid?: string
 }
 
 export default function Editor({editable}: EditorProps) {
@@ -18,6 +19,33 @@ export default function Editor({editable}: EditorProps) {
   const [city, setCity] = useState<string>("")
   const user: any = firebase_auth.currentUser
   const navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => {
+    if (!editable) {
+      let fetchMap = async () => {
+        let mapid = location.pathname.replace('/', '')
+        let map = await attemptMapFetch(mapid as string)
+
+        if (map == 'error') {
+          createWayfinderAlert('error', 'Map not found.')
+          navigate('/')
+        } else {
+          setMarkers(map.markers)
+          setTitle(map.title)
+          setCenter(map.center)
+          setDesc(map.desc)
+          setCity(map.city)
+        }
+      } 
+
+      fetchMap()
+    } else {
+      if (!user || user.isAnonymous) {
+          navigate('/')
+      }
+    }
+  }, [])
 
   const publish = () => {
     let map: SerializableMap = {

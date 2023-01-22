@@ -161,11 +161,11 @@ export default function Overlay({editable, publish, markers, setMarkers, title, 
     aria-describedby="alert-dialog-description"
   >
       <DialogTitle id="alert-dialog-title">
-        {"Discard current map?"}
+        {editable ? "Discard current map?" : "Leave currenet map?"}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          You will not be able to return to this map. All current progress will be lost. 
+          {editable ? "You will not be able to return to this map. All current progress will be lost." : "You can return to this map at any time using the link."}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

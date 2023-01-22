@@ -41,7 +41,7 @@ export default function Sidebar({ editable, publish, title, setTitle,
     }}>
       <Container>
         <TextField style={{"marginBottom": "5px"}} margin="normal" onChange={(e) => setTitle(e.target.value)} 
-          id="standard-basic" label="Project Name" variant="standard" defaultValue={title} disabled={!editable}
+          id="standard-basic" label="Project Name" variant="standard" value={title} disabled={!editable}
           InputProps={{
             startAdornment: (<InputAdornment position="start">
               <StarIcon />
@@ -50,7 +50,7 @@ export default function Sidebar({ editable, publish, title, setTitle,
         <TextField
           style={{"marginTop": "20px", "marginBottom": "20px"}} 
           id="outlined-multiline-static"
-          label="Notes"
+          label={editable ? "Notes" : ""}
           multiline
           defaultValue={desc}
           onChange={(e) => setDesc(e.target.value)}

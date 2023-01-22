@@ -23,7 +23,7 @@ export default function Root() {
           <Routes>
             <Route index path="/" element={<Finder />} />
             <Route index path="/editor" element={<Editor editable={true} />} />
-            <Route path="*" element={<h1>Error: 404</h1>} />
+            <Route path="*" element={<Editor editable={false} />} />
           </Routes>
         </BrowserRouter>
       </div>

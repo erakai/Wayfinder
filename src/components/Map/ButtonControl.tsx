@@ -39,7 +39,7 @@ export default function ButtonControl({editable, visibleIcons, onVisibleButtonCl
                     {centering ? <MoreHorizIcon /> : <PushPinIcon />}
                 </IconButton>
             </Tooltip>]
-            : <div></div> }
+            : <></> }
             <Tooltip title="Go To Center">
                 <IconButton color="secondary" size="large" onClick={onGotoClick} >
                     <CallMissedOutgoingIcon />
