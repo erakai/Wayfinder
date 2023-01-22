@@ -27,8 +27,8 @@ export default function Editor({editable}: EditorProps) {
       center: center,
       markers: markers
     }
-    let email = user.email
-    writeMap(map, email) 
+    let uid = user.uid
+    writeMap(map, uid) 
     createWayfinderAlert('success', 'Map Published!')
     navigate('/')
   }
