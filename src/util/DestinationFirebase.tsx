@@ -1,4 +1,4 @@
-t s/**
+/**
  * Firebase API:
  * id ->
  *  - access (owners) : string ids
@@ -81,8 +81,8 @@ class DestinationFirebase {
         userUpVotes: dest.userUpVotes,
         userDownVotes: dest.userDownVotes,
         mapID: dest.link,
+        city: dest.city,
         title: dest.title,
-        city: dest.tags
       }).then(() => {
         const response : DestinationFirebaseResponse = {
           status: DestinationFirebaseStatus.SUCCESS,

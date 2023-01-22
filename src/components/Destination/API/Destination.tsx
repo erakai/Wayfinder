@@ -23,6 +23,16 @@ type DestinationSeed = {
 	city: string
 }
 
+type DestinationCardInfo = {
+	key: number,
+	link: string,
+	isUpVote: boolean,
+	isDownVote: boolean,
+	votes: number,
+	title: string,
+	city: string
+}
+
 class Destination {
 	readonly id: ""; // firebase id, if -1 failed to load
 	readonly key: number; // id given by mapping
