@@ -7,17 +7,19 @@ import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 
 type AlertProps = {
+  key: string
   type: stirng,
   message: string
 }
 
-export default function WayfinderAlert({type, message} : AlertProps) {
+export default function WayfinderAlert({key, type, message} : AlertProps) {
   const [open, setOpen] = React.useState(true);
 
   return (
     <Box sx={{ width: '100%' }}>
       <Collapse in={open}>
         <Alert
+          id={key}
           severity={type}
           action={
             <IconButton

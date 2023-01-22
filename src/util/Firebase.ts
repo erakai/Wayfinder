@@ -1,5 +1,10 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore/lite';
+import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+
+import { refreshAuth } from "../views/Root/Root"
+
+import { createWayfinderAlert } from "../components/Structure/AlertList.tsx";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDuZpt54LVcberS1qWFgqYIU8Nx1Ek9EWI",
@@ -12,6 +17,44 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
+const provider = new GoogleAuthProvider();
+
+var firebase_auth = getAuth();
+export { firebase_auth }
+
+onAuthStateChanged(firebase_auth, (user) => {
+  if (user) {
+    refreshAuth(true)
+  } else {
+    refreshAuth(false)
+  }
+});
+
+export async function popupLogin() {
+    signInWithPopup(firebase_auth, provider)
+        .then((result) => {
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            const user = result.user;
+            firebase_auth = getAuth();
+        }).catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            createWayfinderAlert("error", errorMessage);
+    });
+}
+
+export async function logout() {
+    signOut(firebase_auth).then(() => {
+        // Sign-out successful.
+        createWayfinderAlert("success", "Successful Logout");
+        firebase_auth = getAuth();
+    }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        createWayfinderAlert("error", errorMessage);
+    });
+}
 
 type mapGET = {
     id: string

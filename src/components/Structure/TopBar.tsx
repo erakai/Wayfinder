@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { styled, alpha } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -14,6 +15,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import InfoIcon from '@mui/icons-material/Info';
 import MoreIcon from '@mui/icons-material/MoreVert';
+
+
+import {createWayfinderAlert} from "./AlertList";
+import {firebase_auth, popupLogin, logout} from "../../util/Firebase"
 
 const letteringColor = '#212121'
 
@@ -73,6 +78,16 @@ export default function TopBar() {
     setMobileMoreAnchorEl(null);
   };
 
+  const handleLogin = () => {
+    popupLogin()
+    handleMenuClose()
+  };
+
+  const handleLogout = () => {
+    logout()
+    handleMenuClose()
+  };
+
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
@@ -99,8 +114,10 @@ export default function TopBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {firebase_auth.currentUser ?
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>:
+        <MenuItem onClick={handleLogin}>Login</MenuItem>
+      }
     </Menu>
   );
 
@@ -145,7 +162,6 @@ export default function TopBar() {
       </MenuItem>
     </Menu>
   );
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar 
@@ -179,9 +195,9 @@ export default function TopBar() {
             <IconButton
               size="large"
               aria-label="information"
-              color="inherit"
+              color="inherit" 
             >
-              <InfoIcon sx={{color: letteringColor}} />
+            <InfoIcon sx={{color: letteringColor}} />
             </IconButton>
             <IconButton
               size="large"
@@ -192,7 +208,13 @@ export default function TopBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle sx={{color: letteringColor}} />
+              <Avatar
+                sx={{ bgcolor: letteringColor }}
+                alt=""
+                imgProps={{ referrerPolicy: "no-referrer" }}
+                src={firebase_auth.currentUser ? firebase_auth.currentUser.photoURL : ""}
+              >
+              </Avatar>
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

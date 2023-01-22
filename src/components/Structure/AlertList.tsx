@@ -8,8 +8,11 @@ import Grid from '@mui/material/Grid';
 
 import WayfinderAlert from "./Alert"
 
-function createWayfinderAlert() {
+let addAlert = () => {}
 
+function createWayfinderAlert(t: string, m: string) {
+	const c : AlertValues = {type: t, message: m}
+	addAlert(c)
 }
 
 type AlertValues = {
@@ -19,8 +22,9 @@ type AlertValues = {
 
 function generate(element: React.ReactElement, alertValues: AlertValues[]) {
   return alertValues.map((value) =>
-  	<ListItem alignItems="flex-start">
+  	<ListItem key={alertValues.indexOf(value)} alignItems="flex-start">
 	    {React.cloneElement(element, {
+	    	key: alertValues.indexOf(value),
 	    	type: value.type,
 	    	message: value.message,  
 	    })}
@@ -31,7 +35,7 @@ function generate(element: React.ReactElement, alertValues: AlertValues[]) {
 function AlertList() {
 	const [alerts, setAlerts] = useState<AlertValues[]>([]);
 
-	function addAlert(alertValue: AlertValues) {
+	addAlert = (alertValue: AlertValues) => {
 		setAlerts(prevAlerts => [...prevAlerts, alertValue])
 	}
 
@@ -42,12 +46,12 @@ function AlertList() {
 		          `#alert-list {
 		              height: 2vh;
 		              display: flex;
-  					  justify-content: center;
+  					  		justify-content: center;
 		              position:fixed;
 		              top: 5%;
 		              width: 50vw;
-					  left: 50%;
-					  transform: translate(-50%, -5%);
+					  			left: 50%;
+					  			transform: translate(-50%, -5%);
 		              z-index: 3; /* Set z-index to 0 as it will be on a layer below the contact form */
 		            }`
 		        }

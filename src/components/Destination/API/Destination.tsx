@@ -1,3 +1,12 @@
+/**
+ * Firebase API:
+ * id ->
+ * 	- access (owners) : string ids
+ *  - votes : number
+ *  - userids who votes : string ids
+ *  - link to map : string id
+ */ 
+
 enum voteStatus {
 	UP,
 	DOWN,
@@ -20,3 +29,5 @@ class Destination {
 		// firebase query
 	}
 }
+
+export { Destination }
