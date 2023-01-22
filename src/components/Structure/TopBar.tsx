@@ -20,7 +20,23 @@ import {createWayfinderAlert} from "./AlertList";
 import {firebase_auth, popupLogin, logout} from "../../util/Firebase"
 import { attemptMapFetch, getAllMaps, getAllMapsByUser } from '../../util/MapFirebase';
 
+import { DestinationFirebase } from "../../util/DestinationFirebase"
+import { Destination } from "../Destination/API/Destination"
+
 const letteringColor = '#212121'
+
+function testUpload() {
+  /*
+  const access : string[] = [firebase_auth.currentUser.uid];
+  const c : Destination = new Destination("", 1, access, "")
+
+  const a = DestinationFirebase.getInstance().writeDestination(c)
+  console.log(a)
+  */
+
+  const a = DestinationFirebase.getInstance().readAllDestinations();
+  console.log(a)
+}
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -196,9 +212,10 @@ export default function TopBar() {
               size="large"
               aria-label="information"
               color="inherit" 
+              onClick={testUpload}
             >
             <InfoIcon sx={{color: letteringColor}} />
-            </IconButton>
+              </IconButton>
             <IconButton
               size="large"
               edge="end"
