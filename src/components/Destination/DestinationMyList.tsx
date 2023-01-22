@@ -13,14 +13,15 @@ import DestinationCard from "./DestinationCard";
 import { Destination } from "./API/Destination";
 import { firebase_auth } from "../../util/Firebase"
 
-function generate(element: React.ReactElement, dests: Destination[], refresh: any) {
+function generate(element: React.ReactElement, dests: Destination[], isPersonal: boolean) {
   if (!dests) { return null; }
   return dests.filter(function(dest) {
-    return (dest.access.includes(firebase_auth.currentUser.uid));
+    return (dest.access.includes((firebase_auth.currentUser as any).uid));
   }).map(function(dest) {
     return React.cloneElement(element, {
       key: dest.key,
       dest: dest,
+      isPersonal: false
     })
   });
 }
@@ -31,9 +32,10 @@ const Demo = styled('div')(({ theme }) => ({
 
 type DestinationMyListProps = {
   dests: Destination[]
+  isPersonal: boolean
 }
 
-export default function DestinationMyList({dests} : DestinationMyListProps) {
+export default function DestinationMyList({dests, isPersonal} : DestinationMyListProps) {
   return (
     <Box sx={{ flexGrow: 1}}>
       <Grid container spacing={2}>
@@ -57,8 +59,8 @@ export default function DestinationMyList({dests} : DestinationMyListProps) {
           <Paper style={{maxHeight: '70vh', overflow: 'auto'}}>
             <List component="div">
               {generate(
-                <DestinationCard />,
-                dests
+                // @ts-ignore
+                <DestinationCard isPersonal={true} />, dests, true
               )}
             </List>
           </Paper>

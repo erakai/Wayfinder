@@ -81,7 +81,7 @@ class DestinationFirebase {
         userUpVotes: dest.userUpVotes,
         userDownVotes: dest.userDownVotes,
         mapID: dest.link,
-        city: dest.city,
+        city: dest.tags,
         title: dest.title,
       }).then(() => {
         const response : DestinationFirebaseResponse = {
@@ -109,16 +109,20 @@ class DestinationFirebase {
       const destSeed : DestinationSeed = {
         id : key,
         key: String(i),
+        // @ts-ignore
         access: from[key].access,
+        // @ts-ignore
         link: from[key].mapID,
-        votes: from[key].votes,
+        // @ts-ignore
         userUpVotes: from[key].userUpVotes,
-        userDownVotes: from[key].userDownVotes
+        // @ts-ignore
+        userDownVotes: from[key].userDownVotes,
+        // @ts-ignore
+        title: from[key].title,
+        // @ts-ignore
+        tags: from[key].city,
       }
       const d = new Destination(destSeed);
-
-      d.title = from[key].title;
-      d.tags = from[key].city;
 
       dest.push(d)
       i++;

@@ -34,24 +34,23 @@ type DestinationCardInfo = {
 }
 
 class Destination {
-	readonly id: ""; // firebase id, if -1 failed to load
+	readonly id: string; // firebase id, if -1 failed to load
 	readonly key: number; // id given by mapping
 	readonly access : string[];
 	userUpVotes: string[];
 	userDownVotes: string[];
 	votes : number;
-	city: string
 	title : string; // title shown
-	tags: string[]; // tags
+	tags: string; // tags
 	readonly link: string; // link to map
 
 	constructor(destSeed : DestinationSeed) {
 		this.id = destSeed.id;
-		this.key = destSeed.key;
+		this.key = parseInt(destSeed.key);
 		this.access = destSeed.access;
 		this.link = destSeed.link;
 		this.title = destSeed.title
-		this.city = destSeed.city
+		this.tags = destSeed.city
 		
 		this.userUpVotes = destSeed.userUpVotes;
 		this.userDownVotes = destSeed.userDownVotes;
@@ -60,11 +59,9 @@ class Destination {
 		const downs = destSeed.userDownVotes ? destSeed.userDownVotes.length : 0;
 
 		this.votes = ups - downs;
-
-		// firebase query (need kai's stuff)
-		this.title = ""
-		this.tags = []
 	}
 }
 
-export { Destination, DestinationSeed }
+export { Destination };
+export type { DestinationSeed };
+

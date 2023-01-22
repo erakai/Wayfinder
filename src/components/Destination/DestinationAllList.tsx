@@ -10,7 +10,7 @@ import DestinationCard from "./DestinationCard";
 
 import { Destination } from "./API/Destination";
 
-function generate(element: React.ReactElement, dests: Destination[], refresh : any) {
+function generate(element: React.ReactElement, dests: Destination[]) {
   if (!dests) {
     return null;
   }
@@ -31,9 +31,10 @@ const Demo = styled('div')(({ theme }) => ({
 
 type DestinationAllListProps = {
   dests: Destination[]
+  isPersonal: boolean
 }
 
-export default function DestinationAllList({dests} : DestinationAllListProps) {
+export default function DestinationAllList({dests, isPersonal} : DestinationAllListProps) {
   return (
     <Box sx={{ flexGrow: 1}}>
       <Grid container spacing={2}>
@@ -46,7 +47,8 @@ export default function DestinationAllList({dests} : DestinationAllListProps) {
             <Paper style={{maxHeight: '75vh', overflow: 'auto'}}>
               <List component="div">
                 {generate(
-                  <DestinationCard />,
+                  // @ts-ignore
+                  <DestinationCard isPersonal={isPersonal}/>,
                   dests
                 )}
               </List>

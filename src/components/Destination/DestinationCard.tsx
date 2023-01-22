@@ -16,9 +16,11 @@ import Typography from "@mui/material/Typography"
 import { Destination } from "./API/Destination";
 import { firebase_auth } from "../../util/Firebase"
 import { DestinationFirebase } from "../../util/DestinationFirebase"
+import { Link } from 'react-router-dom';
 
 type DestinationCardProps = {
-	dest : Destination
+	dest?: Destination
+	isPersonal: boolean
 }
 
 enum VoteState {
@@ -27,13 +29,13 @@ enum VoteState {
 	NONE
 }
 
-export default function DestinationCard({dest} : DestinationCardProps) {
+export default function DestinationCard({dest, isPersonal} : DestinationCardProps) {
 	if (!dest) { return; }
 	const isUpVote : boolean = dest.userUpVotes ? dest.userUpVotes.includes(
-		firebase_auth.currentUser.uid
+		(firebase_auth.currentUser as any).uid
 	) : false
 	const isDownVote : boolean = dest.userDownVotes ? dest.userDownVotes.includes(
-		firebase_auth.currentUser.uid
+		(firebase_auth.currentUser as any).uid
 	) : false
 
 	var defaultVoteState = VoteState.NONE
@@ -60,7 +62,7 @@ export default function DestinationCard({dest} : DestinationCardProps) {
 		dest.userUpVotes = dest.userUpVotes ? dest.userUpVotes : []
 		dest.userDownVotes = dest.userDownVotes ? dest.userDownVotes : []
 
-		const uid = firebase_auth.currentUser.uid
+		const uid = (firebase_auth.currentUser as any).uid
 		if (voteState == VoteState.UP) {
 			dest.userUpVotes = dest.userUpVotes .filter(item => item !== uid)
 			DestinationFirebase.getInstance().writeDestination(dest);
@@ -82,7 +84,7 @@ export default function DestinationCard({dest} : DestinationCardProps) {
 		dest.userUpVotes = dest.userUpVotes ? dest.userUpVotes : []
 		dest.userDownVotes = dest.userDownVotes ? dest.userDownVotes : []
 
-		const uid = firebase_auth.currentUser.uid
+		const uid = (firebase_auth.currentUser as any).uid
 		if (voteState == VoteState.DOWN) {
 			dest.userDownVotes = dest.userDownVotes .filter(item => item !== uid)
 			DestinationFirebase.getInstance().writeDestination(dest);
@@ -103,28 +105,30 @@ export default function DestinationCard({dest} : DestinationCardProps) {
 	<ListItem key={dest.key}>
 		<ListItemAvatar>
 			<Avatar sx={{ bgcolor: 'green' }}>
-				<MapIcon />
+				<Link to={"/" + dest.link}><MapIcon /></Link>
 			</Avatar>
 		</ListItemAvatar>
 		<ListItemText
 		primary={dest.title}
-		secondary={'Creator: '}
+		secondary={dest.tags}
 		/>
-		<ListItem style={{display:'flex', justifyContent:'flex-end', width:'auto'}} >
+		{isPersonal ?
+		[<ListItem style={{display:'flex', justifyContent:'flex-end', width:'auto'}} >
 			<Typography>{voteCount}</Typography>
-		</ListItem>
-		<IconButton edge="end" aria-label="upvote" onClick={handleUpVote}>
-			{voteState == VoteState.UP ?
-				<ThumbUpAltIcon /> :
-				<ThumbUpOffAltIcon />
-			}
-		</IconButton>
-		<IconButton edge="end" aria-label="downvote" onClick={handleDownVote}>
-			{voteState == VoteState.DOWN ?
-				<ThumbDownAltIcon /> :
-				<ThumbDownOffAltIcon />
-			}
-		</IconButton>
+		</ListItem>,
+			<IconButton edge="end" aria-label="upvote" onClick={handleUpVote}>
+				{voteState == VoteState.UP ?
+					<ThumbUpAltIcon /> :
+					<ThumbUpOffAltIcon />
+				}
+			</IconButton>,
+			<IconButton edge="end" aria-label="downvote" onClick={handleDownVote}>
+				{voteState == VoteState.DOWN ?
+					<ThumbDownAltIcon /> :
+					<ThumbDownOffAltIcon />
+				}
+			</IconButton>]
+			: <></>}
 	</ListItem>
 	)
 }

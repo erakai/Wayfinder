@@ -12,6 +12,7 @@ import { DestinationFirebase } from "../../util/DestinationFirebase";
 import { Destination } from "../Destination/API/Destination"
 
 import { createWayfinderAlert } from "./AlertList";
+import useForceUpdate from '../../hooks/useForceUpdate';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -40,11 +41,11 @@ export default function DestinationGrid() {
   return (
     <Grid container spacing={2} sx={{overflow: 'auto' }}>
       <Grid xs={true} md={true}>
-        <DestinationAllList dests={dests} />
+        <DestinationAllList dests={dests as Destination[]} isPersonal={true}/>
       </Grid>
       {firebase_auth.currentUser ?
       <Grid xs={6} md={4}>
-        <DestinationMyList dests={dests} />
+        <DestinationMyList dests={dests as Destination[]} isPersonal={false}/>
       </Grid> : null}
     </Grid>
   )

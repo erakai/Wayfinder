@@ -183,16 +183,7 @@ export default function TopBar() {
           >
             Wayfinder
           </Typography>
-          <Search sx={{color: letteringColor}}>
-            <SearchIconWrapper>
-              <SearchIcon sx={{color: letteringColor}} />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-              sx={{color: letteringColor, border: 1}}
-            />
-          </Search>
+          
           <Box sx={{ flexGrow: 0 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
