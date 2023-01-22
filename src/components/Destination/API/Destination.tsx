@@ -28,6 +28,7 @@ class Destination {
 	readonly access : string[];
 	userUpVotes: string[];
 	userDownVotes: string[];
+	votes : number;
 	title : string; // title shown
 	tags: string[]; // tags
 	readonly link: string; // link to map

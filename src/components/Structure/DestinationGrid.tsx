@@ -40,7 +40,7 @@ export default function DestinationGrid() {
   return (
     <Grid container spacing={2} sx={{overflow: 'auto' }}>
       <Grid xs={true} md={true}>
-        <DestinationAllList />
+        <DestinationAllList dests={dests} />
       </Grid>
       {firebase_auth.currentUser ?
       <Grid xs={6} md={4}>
