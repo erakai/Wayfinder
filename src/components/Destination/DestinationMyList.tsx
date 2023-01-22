@@ -14,7 +14,7 @@ import { Destination } from "./API/Destination";
 import { firebase_auth } from "../../util/Firebase"
 
 function generate(element: React.ReactElement, dests: Destination[], refresh: any) {
-  if (!dests) { return null }
+  if (!dests) { return null; }
   return dests.filter(function(dest) {
     return (dest.access.includes(firebase_auth.currentUser.uid));
   }).map(function(dest) {

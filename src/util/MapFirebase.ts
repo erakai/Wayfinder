@@ -23,6 +23,18 @@ export async function attemptMapFetch(id: string) {
     return 'error';
 }
 
+export function attemptMapFetchPromise(id: string) {
+    const dbRef = ref(db)
+    return new Promise(function (resolve, reject) {
+        get(child(dbRef, MAP_LINK + id)).then((snapshot) => {
+            if (snapshot.exists()) {
+                resolve(snapshot.val());
+            }
+            reject('error');
+        })
+    })
+}
+
 export function getAllMaps(onMapUpdate: (data: any) => void) {
     const mapRef = ref(db, MAP_LINK)
     onValue(mapRef, (snapshot) => {

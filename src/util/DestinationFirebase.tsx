@@ -9,6 +9,8 @@
 import { getDatabase, ref, child, set, push, get } from "firebase/database";
 import { Destination, DestinationSeed } from "../components/Destination/API/Destination";
 
+import { attemptMapFetch } from "./MapFirebase"
+
 const db = getDatabase();
 
 enum DestinationFirebaseStatus {
@@ -78,7 +80,9 @@ class DestinationFirebase {
         access: dest.access,
         userUpVotes: dest.userUpVotes,
         userDownVotes: dest.userDownVotes,
-        mapID: dest.link
+        mapID: dest.link,
+        title: dest.title,
+        city: dest.tags
       }).then(() => {
         const response : DestinationFirebaseResponse = {
           status: DestinationFirebaseStatus.SUCCESS,
@@ -111,8 +115,12 @@ class DestinationFirebase {
         userUpVotes: from[key].userUpVotes,
         userDownVotes: from[key].userDownVotes
       }
+      const d = new Destination(destSeed);
 
-      dest.push(new Destination(destSeed))
+      d.title = from[key].title;
+      d.tags = from[key].city;
+
+      dest.push(d)
       i++;
     })
     return dest;

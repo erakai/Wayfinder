@@ -11,6 +11,10 @@ import DestinationCard from "./DestinationCard";
 import { Destination } from "./API/Destination";
 
 function generate(element: React.ReactElement, dests: Destination[], refresh : any) {
+  if (!dests) {
+    return null;
+  }
+
   if (dests) {
     return dests.map((dest) => {
       return React.cloneElement(element, {

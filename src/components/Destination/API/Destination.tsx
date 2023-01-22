@@ -6,7 +6,6 @@
  *  - userDownVotes : string ids
  *  - mapID: string id
  */ 
-
 enum voteStatus {
 	UP,
 	DOWN,
@@ -14,22 +13,12 @@ enum voteStatus {
 }
 
 type DestinationSeed = {
-	id: string,
-	key: string,
+	id : string,
+	key : string,
 	access : string[],
 	link : string,
 	userUpVotes : string[]
 	userDownVotes : string[]
-}
-
-type DestinationCardInfo = {
-	key: number,
-	link: string,
-	isUpVote: boolean,
-	isDownVote: boolean,
-	votes: number,
-	title: string,
-	tags: string[]
 }
 
 class Destination {
@@ -57,10 +46,9 @@ class Destination {
 		this.votes = ups - downs;
 
 		// firebase query (need kai's stuff)
-		
-		this.title = "Poop"
+		this.title = ""
 		this.tags = []
 	}
 }
 
-export { Destination, DestinationSeed, DestinationCardInfo }
+export { Destination, DestinationSeed }
