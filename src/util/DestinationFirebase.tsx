@@ -120,7 +120,7 @@ class DestinationFirebase {
         // @ts-ignore
         title: from[key].title,
         // @ts-ignore
-        tags: from[key].city,
+        city: from[key].city,
       }
       const d = new Destination(destSeed);
 

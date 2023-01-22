@@ -101,6 +101,7 @@ export default function DestinationCard({dest, isPersonal} : DestinationCardProp
 		recalculateVote();
 	}
 
+	console.log(dest)
 	return (
 	<ListItem key={dest.key}>
 		<ListItemAvatar>
