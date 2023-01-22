@@ -68,7 +68,9 @@ export default function Editor({editable}: EditorProps) {
       access: [uid],
       link: link,
       userUpVotes: [],
-      userDownVotes: []
+      userDownVotes: [],
+      title: title,
+      city: city
     }
 
     DestinationFirebase.getInstance().writeDestination(new Destination(seed))

@@ -17,8 +17,10 @@ type DestinationSeed = {
 	key : string,
 	access : string[],
 	link : string,
-	userUpVotes : string[]
-	userDownVotes : string[]
+	userUpVotes : string[],
+	userDownVotes : string[],
+	title: string,
+	city: string
 }
 
 class Destination {
@@ -28,6 +30,7 @@ class Destination {
 	userUpVotes: string[];
 	userDownVotes: string[];
 	votes : number;
+	city: string
 	title : string; // title shown
 	tags: string[]; // tags
 	readonly link: string; // link to map
@@ -37,6 +40,9 @@ class Destination {
 		this.key = destSeed.key;
 		this.access = destSeed.access;
 		this.link = destSeed.link;
+		this.title = destSeed.title
+		this.city = destSeed.city
+		
 		this.userUpVotes = destSeed.userUpVotes;
 		this.userDownVotes = destSeed.userDownVotes;
 
