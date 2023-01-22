@@ -31,12 +31,17 @@ enum VoteState {
 
 export default function DestinationCard({dest, isPersonal} : DestinationCardProps) {
 	if (!dest) { return; }
-	const isUpVote : boolean = dest.userUpVotes ? dest.userUpVotes.includes(
-		(firebase_auth.currentUser as any).uid
-	) : false
-	const isDownVote : boolean = dest.userDownVotes ? dest.userDownVotes.includes(
-		(firebase_auth.currentUser as any).uid
-	) : false
+
+	let isUpVote = false
+	let isDownVote = false
+	if (firebase_auth.currentUser) {
+		isUpVote = dest.userUpVotes ? dest.userUpVotes.includes(
+			(firebase_auth.currentUser as any).uid
+		) : false
+		isDownVote = dest.userDownVotes ? dest.userDownVotes.includes(
+			(firebase_auth.currentUser as any).uid
+		) : false
+	}
 
 	var defaultVoteState = VoteState.NONE
 	if (isUpVote) {
