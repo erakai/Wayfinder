@@ -44,7 +44,7 @@ export default function DestinationGrid() {
       </Grid>
       {firebase_auth.currentUser ?
       <Grid xs={6} md={4}>
-        <DestinationMyList dests={[]} />
+        <DestinationMyList dests={dests} />
       </Grid> : null}
     </Grid>
   )

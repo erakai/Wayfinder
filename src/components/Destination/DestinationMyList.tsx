@@ -9,15 +9,19 @@ import Button from '@mui/material/Button'
 import { Link } from 'react-router-dom'
 
 import DestinationCard from "./DestinationCard";
+import { firebase_auth } from "../../util/Firebase"
 
 import { Destination } from "./API/Destination";
 
-function generate(element: React.ReactElement) {
-  return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
+function generate(element: React.ReactElement, dests: Destination[]) {
+  if (!dests) { return null }
+  dests.filter(function(dest) {
+    return (dest.access.includes(firebase_auth.currentUser.uid));
+  }).map(function(dest) { 
+    return React.cloneElement(element, {
+      key: dest.key,
+    })
+  });
 }
 
 const Demo = styled('div')(({ theme }) => ({
@@ -54,7 +58,8 @@ export default function DestinationMyList({dests} : DestinationMyListProps) {
           <Paper style={{maxHeight: '70vh', overflow: 'auto'}}>
             <List>
               {generate(
-                <DestinationCard />
+                <DestinationCard />,
+                dests
               )}
             </List>
           </Paper>

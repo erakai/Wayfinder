@@ -11,12 +11,13 @@ import DestinationCard from "./DestinationCard";
 import { Destination } from "./API/Destination";
 
 function generate(element: React.ReactElement, dests: Destination[]) {
-  console.log(dests)
-  return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
+  if (dests) {
+    return dests.map((dest) =>
+      React.cloneElement(element, {
+        key: dest.key,
+      }),
+    );
+  }
 }
 
 const Demo = styled('div')(({ theme }) => ({
